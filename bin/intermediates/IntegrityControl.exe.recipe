@@ -2,7 +2,7 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
-      <FullPath>D:\cpp\GitHub\IntegrityControl\bin\Release\IntegrityControl.exe</FullPath>
+      <FullPath>D:\cpp\Projects\IntegrityControl\bin\Release\IntegrityControl.exe</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles />

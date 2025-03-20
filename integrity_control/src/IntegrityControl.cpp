@@ -15,7 +15,7 @@ IntegrityControl::IntegrityControl(const std::wstring& directoryPath, bool isTes
     );
 
     if (directoryHandle == INVALID_HANDLE_VALUE) {
-        std::wcerr << L"[-] Ошибка: Не удается открыть дескриптор каталога." << std::endl;
+        std::wcerr << "Error: Unable to open directory handle." << std::endl;
     }
 }
 
@@ -37,7 +37,7 @@ void IntegrityControl::start()
         for (const auto& entry : std::filesystem::recursive_directory_iterator(directoryPath)) {
             if (entry.is_regular_file()) {
                 if (!hasFiles) {
-                    std::wcout << L"Папка содержит файлы:" << std::endl;
+                    std::wcout << "The folder contains files:" << std::endl;
                     hasFiles = true;
                 }
                 std::wcout << entry.path().wstring() << std::endl;
@@ -45,7 +45,7 @@ void IntegrityControl::start()
         }
 
         if (hasFiles) {
-            std::wcout << L"-----------------------------------------------------------------------------------------" << std::endl;
+            std::wcout << "-----------------------------------------------------------------------------------------" << std::endl;
         }
     }
 
@@ -56,11 +56,11 @@ void IntegrityControl::modifyFile(const std::wstring& fileName, int count)
 {
     std::wofstream file(directoryPath + L"\\" + fileName, std::ios::app);
     if (file.is_open()) {
-        file << L"Изменение " << count << L" " << std::chrono::system_clock::now().time_since_epoch().count() << std::endl;
+        file << L"Modification " << count << L" at " << std::chrono::system_clock::now().time_since_epoch().count() << std::endl;
         file.close();
     }
     else {
-        std::wcerr << L"[-] Ошибка: Не удается открыть файл для внесения изменений." << std::endl;
+        std::wcerr << L"Error: Unable to open file for modification." << std::endl;
     }
 }
 
@@ -127,7 +127,7 @@ void IntegrityControl::monitorChanges()
             } while (true);
         }
         else {
-            std::wcerr << L"[-] Ошибка: Не удалось отследить изменения в каталоге." << std::endl;
+            std::wcerr << "Error: Failed to monitor directory changes." << std::endl;
             break;
         }
     }
@@ -182,7 +182,7 @@ void IntegrityControl::monitorChanges_test()
 
                     do {
                         std::wstring wideFileName(notifyInfo->FileName, notifyInfo->FileNameLength / sizeof(WCHAR));
-                        std::wcout << L"Обнаруженное изменение: " << wideFileName << std::endl;
+                        std::wcout << L"Detected change: " << wideFileName << std::endl;
                         file_name = wideFileName;
 
                         if (notifyInfo->NextEntryOffset != 0) {
@@ -195,7 +195,7 @@ void IntegrityControl::monitorChanges_test()
                     } while (true);
                 }
                 else {
-                    std::wcerr << L"[-] Ошибка: Не удалось отследить изменения в каталоге." << std::endl;
+                    std::cerr << "Error: Failed to monitor directory changes." << std::endl;
                     break;
                 }
 
@@ -206,12 +206,12 @@ void IntegrityControl::monitorChanges_test()
             }
 
             double averageTime = totalDuration / 5.0;
-            std::wcout << L"Среднее время мониторинга файла " << file << L": " << averageTime << L" секунд" << std::endl;
+            std::wcout << L"Average monitoring time for file " << file << L": " << averageTime << L" seconds" << std::endl;
             test.recordEventStatistics_test(file_name, event_, averageTime, size);
             size++;
         }
 
-        std::wcout << L"Проверьте файл 'stats.txt '." << std::endl;
-        std::wcout << L"-----------------------------------------------------------------------------------------" << std::endl;
+        std::wcout << "Check the file 'stats.txt '." << std::endl;
+        std::wcout << "-----------------------------------------------------------------------------------------" << std::endl;
     }
 }

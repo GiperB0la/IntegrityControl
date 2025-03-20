@@ -3,7 +3,7 @@
 
 void Test::createFiles(const std::vector<size_t>& sizes, const std::wstring& directory, std::vector<std::wstring>& files)
 {
-    std::wcout << L"Для тестирования создаются файлы..." << std::endl;
+    std::wcout << "Files are being created for the test..." << std::endl;
 
     if (GetFileAttributesW(directory.c_str()) == INVALID_FILE_ATTRIBUTES) {
         CreateDirectoryW(directory.c_str(), nullptr);
@@ -14,13 +14,13 @@ void Test::createFiles(const std::vector<size_t>& sizes, const std::wstring& dir
         files.push_back(L"file_" + std::to_wstring(size) + L".bin");
 
         if (GetFileAttributesW(fileName.c_str()) != INVALID_FILE_ATTRIBUTES) {
-            std::wcout << L"Файл уже существует: " << fileName << std::endl;
+            std::wcout << L"File already exists: " << fileName << std::endl;
             continue;
         }
 
         std::wofstream ofs(fileName, std::ios::binary);
         if (!ofs) {
-            std::wcerr << L"[-] Ошибка: Не удалось создать файл " << fileName << std::endl;
+            std::wcerr << L"Error: Unable to create file " << fileName << std::endl;
             continue;
         }
 
@@ -36,28 +36,28 @@ void Test::createFiles(const std::vector<size_t>& sizes, const std::wstring& dir
     }
     input_data_size /= 1024 * 1024;
 
-    std::wcout << L"Файлы для теста уже созданы." << std::endl;
-    std::wcout << L"Общий размер файла: " << input_data_size << " MB = " << input_data_size / 1024 << " GB." << std::endl;
-    std::wcout << L"-----------------------------------------------------------------------------------------" << std::endl;
-    std::wcout << L"Для тестирования удалите первый файл с именем 'file_1048576.bin' из папки 'Test'." << std::endl;
-    std::wcout << L"После запуска теста в файле 'stats.txt' будет сохранена информация о времени завершения\n5 тестов для каждого файла разного размера." << std::endl;
-    std::wcout << L"-----------------------------------------------------------------------------------------" << std::endl;
+    std::wcout << "The files for the test have been created." << std::endl;
+    std::wcout << "Total file size: " << input_data_size << " MB = " << input_data_size / 1024 << " GB." << std::endl;
+    std::wcout << "-----------------------------------------------------------------------------------------" << std::endl;
+    std::wcout << "For testing, delete the first file named 'file_1048576.bin' from the 'Test' folder." << std::endl;
+    std::wcout << "After running the test in the file 'stats.txt ' information about the completion time of\n5 tests for each file of different sizes will be saved." << std::endl;
+    std::wcout << "-----------------------------------------------------------------------------------------" << std::endl;
 }
 
 void Test::recordEventStatistics(const std::wstring& file_name, DWORD event_, double averageEventTimeout)
 {
     std::wofstream statsFile(L"stats.txt", std::ios::app);
     if (!statsFile.is_open()) {
-        std::wcerr << L"[-] Ошибка: Не удается открыть файл статистики." << std::endl;
+        std::wcerr << "Error: Unable to open stats file." << std::endl;
         return;
     }
 
     static bool header = true;
     if (header) {
         statsFile << std::endl << L"*************************************************************************" << std::endl
-            << std::endl << std::left << std::setw(30) << L"Имя файла" << L"| "
-            << std::setw(30) << L"Событие" << L"| "
-            << std::setw(10) << L"Время" << std::endl;
+            << std::endl << std::left << std::setw(30) << L"File name" << L"| "
+            << std::setw(30) << L"Event" << L"| "
+            << std::setw(10) << L"Time" << std::endl;
         statsFile << L"-------------------------------------------------------------------------" << std::endl;
         header = false;
     }
@@ -73,16 +73,16 @@ void Test::recordEventStatistics_test(const std::wstring& file_name, DWORD event
 {
     std::wofstream statsFile(L"stats.txt", std::ios::app);
     if (!statsFile.is_open()) {
-        std::wcerr << L"[-]Ошибка: Не удается открыть файл статистики." << std::endl;
+        std::wcerr << "Error: Unable to open stats file." << std::endl;
         return;
     }
 
     static bool header_test = true;
     if (header_test) {
         statsFile << std::left << std::setw(30) << L"Size" << L"| "
-            << std::setw(30) << L"Имя файла" << L"| "
-            << std::setw(30) << L"Событие" << L"| "
-            << std::setw(10) << L"Время (в среднем за 5 тестов)" << std::endl;
+            << std::setw(30) << L"File name" << L"| "
+            << std::setw(30) << L"Event" << L"| "
+            << std::setw(10) << L"Time (average of 5 tests)" << std::endl;
         statsFile << L"-------------------------------------------------------------------------------------------------------------------------" << std::endl;
         header_test = false;
     }
