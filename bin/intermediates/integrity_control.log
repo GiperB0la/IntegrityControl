@@ -1,0 +1,10 @@
+﻿  IntegrityControl.cpp
+  Main.cpp
+  Test.cpp
+  Создание кода
+  Previous IPDB not found, fall back to full compilation.
+  All 760 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Создание кода завершено
+  integrity_control.vcxproj -> D:\cpp\GitHub\IntegrityControl\bin\Release\IntegrityControl.exe
+  "pwsh.exe" не является внутренней или внешней
+  командой, исполняемой программой или пакетным файлом.
